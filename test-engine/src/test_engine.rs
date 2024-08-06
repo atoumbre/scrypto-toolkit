@@ -20,6 +20,7 @@ pub struct TestEngine {
     components: HashMap<String, ComponentAddress>,
     current_component: Option<String>,
     resources: HashMap<String, ResourceAddress>,
+    internal_addresses: HashMap<String, InternalAddress>,
 }
 
 impl TestEngine {
@@ -46,6 +47,7 @@ impl TestEngine {
             components,
             current_component: None,
             resources,
+            internal_addresses: HashMap::new(),
         }
     }
 
@@ -353,6 +355,41 @@ impl TestEngine {
             None => {
                 self.resources.insert(token_name.format(), resource_address);
             }
+        }
+    }
+
+    /// Registers a new internal address.
+    ///
+    /// # Arguments
+    /// * `address_name`: name that will be used to reference the token.
+    /// * `internal_address`: address of the resource.
+    pub fn register_internal_address<N: ReferenceName>(
+        &mut self,
+        address_name: N,
+        internal_address: InternalAddress,
+    ) {
+        match self.internal_addresses.get(&address_name.format()) {
+            Some(_) => {
+                panic!(
+                    "Internal address with name {} already exists",
+                    address_name.format()
+                );
+            }
+            None => {
+                self.internal_addresses
+                    .insert(address_name.format(), internal_address);
+            }
+        }
+    }
+
+    /// Returns the [`InternalAddress`] of the given reference.
+    ///
+    /// # Arguments
+    /// * `name`: reference name of the internal address.
+    pub fn get_internal_address<N: ReferenceName>(&self, name: N) -> InternalAddress {
+        match self.internal_addresses.get(&name.format()) {
+            None => panic!("There is no internal address with name {}", name.format()),
+            Some(address) => *address,
         }
     }
 
