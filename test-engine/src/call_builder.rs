@@ -121,14 +121,16 @@ impl<'a> CallBuilder<'a> {
             true,
         );
 
-        if let Some(title) = self.log_title {
-            Self::output_log_title(title);
-        }
+        if !self.test_engine.get_options().quiet {
+            if let Some(title) = self.log_title {
+                Self::output_log_title(title);
+            }
 
-        Self::output_logs(&receipt);
+            Self::output_logs(&receipt);
 
-        if self.with_tx_fee {
-            Self::output_tx_fee(&receipt);
+            if self.with_tx_fee {
+                Self::output_tx_fee(&receipt);
+            }
         }
 
         receipt
@@ -344,14 +346,16 @@ impl<'a> CallBuilder<'a> {
             false,
         );
 
-        if let Some(title) = self.log_title {
-            Self::output_log_title(title);
-        }
+        if !self.test_engine.get_options().quiet {
+            if let Some(title) = self.log_title {
+                Self::output_log_title(title);
+            }
 
-        Self::output_logs(&receipt);
+            Self::output_logs(&receipt);
 
-        if self.with_tx_fee {
-            Self::output_tx_fee(&receipt);
+            if self.with_tx_fee {
+                Self::output_tx_fee(&receipt);
+            }
         }
 
         receipt

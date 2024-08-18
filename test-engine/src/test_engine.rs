@@ -11,6 +11,10 @@ use crate::receipt_traits::Outcome;
 use crate::references::{ComponentReference, GlobalReference, ReferenceName, ResourceReference};
 use crate::to_id::ToId;
 
+pub struct TestEngineOptions {
+    pub quiet: bool,
+}
+
 pub struct TestEngine {
     engine_interface: EngineInterface,
     accounts: HashMap<String, Account>,
@@ -21,6 +25,7 @@ pub struct TestEngine {
     current_component: Option<String>,
     resources: HashMap<String, ResourceAddress>,
     internal_addresses: HashMap<String, InternalAddress>,
+    options: TestEngineOptions,
 }
 
 impl TestEngine {
@@ -48,6 +53,7 @@ impl TestEngine {
             current_component: None,
             resources,
             internal_addresses: HashMap::new(),
+            options: TestEngineOptions { quiet: false },
         }
     }
 
@@ -519,7 +525,7 @@ impl TestEngine {
             .execute()
     }
 
-    /// Returns the [`PackageAddress`] of the given pacresourcekage.
+    /// Returns the [`PackageAddress`] of the given package.
     ///
     /// # Arguments
     /// * `name`: reference name of the package.
@@ -636,6 +642,22 @@ impl TestEngine {
         key: &K,
     ) -> Option<V> {
         self.engine_interface.get_kvs_entry(kv_store_id, key)
+    }
+
+    /// Enable running test quietly.
+    ///
+    pub fn mute(&mut self) {
+        self.options.quiet = true;
+    }
+
+    /// Disable running test quietly.
+    ///
+    pub fn unmute(&mut self) {
+        self.options.quiet = false;
+    }
+
+    pub(crate) fn get_options(&self) -> &TestEngineOptions {
+        &self.options
     }
 
     pub(crate) fn current_account(&self) -> &Account {
