@@ -77,7 +77,7 @@ macro_rules! none {
 }
 
 #[macro_export]
-macro_rules! global_package_advanced1 {
+macro_rules! global_package_advanced {
     ($name:ident, $code_path:expr, $package_name:expr, $release_path:expr) => {
         lazy_static! {
             static ref $name: (Vec<u8>, PackageDefinition) = {
