@@ -45,14 +45,14 @@ fn test_bug() {
         .without_kernel_trace()
         .build();
 
-    let (pubkey, privkey, address) = simulator.new_account(false);
+    let (pubkey, _privkey, address) = simulator.new_account(false);
 
     let manifest_builder = ManifestBuilder::new().lock_fee_from_faucet().call_method(
         address,
         "create_proof_of_amount",
         (XRD, dec!(100)),
     );
-    let (manifest_builder, proof) =
+    let (manifest_builder, _proof) =
         manifest_builder.add_instruction_advanced(InstructionV1::CreateProofFromAuthZoneOfAmount {
             resource_address: XRD,
             amount: dec!(100),

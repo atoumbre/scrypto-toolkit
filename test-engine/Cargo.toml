@@ -13,5 +13,6 @@ scrypto-test = "1.2.0"
 radix-substate-store-impls = "1.2.0"
 lazy_static = "1.4.0"
 indexmap = "2.2.6"
+walkdir = "2.3.2"
 
 [lib]
